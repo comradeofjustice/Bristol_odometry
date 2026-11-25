@@ -44,9 +44,9 @@ Notes for discussion:
 - Clockwise single-trial values agree closely (84.0–84.2 mm); anticlockwise ones spread more (81.5–85.6 mm).
 - Odometry puts the centre point within 3 mm of the start throughout every turn.
 - Only one physical reading per condition so far (the brief asks for ≥ 5), so the ± values are optimistic.
-- The +180° reading on the sheet was overwritten and is read as 195°; read as 185° the fit would give B = 85.18 mm.
-- `ex3_rotation/measurements.csv` also lists three logged runs with no physical reading (earlier
-  +180, −90, −180 attempts); they are kept as raw data and excluded from the fit.
+- Sensitivity to reading the protractor: if the +180° reading (195°) had been 185°, the fit would give B = 85.18 mm.
+- `ex3_rotation/measurements.csv` also lists three logged runs with no physical reading
+  (`*_extra.csv`: earlier +180, −90, −180 attempts); they are kept as raw data and excluded from the fit.
 - Effective value: it depends on r, the surface, coasting after the motors stop and the measurement method.
 
 # Exercise 2 — Effective wheel radius
@@ -104,7 +104,7 @@ Notes for discussion:
 | `analysis/odometry_exercise02_wheel_radius_CSY.ipynb` | Colab notebook (based on the course notebook) with outputs. Reads the Google Sheet and the CSVs from Google Drive; set `USE_EXAMPLE_DATA = True` to run on synthetic data. |
 | `analysis/least_squares_fit.png` | The final least-squares plot. |
 | `ex3_rotation/Rotate/` | Exercise 3 sketch (on-the-spot turn, persistent trial counter) and its `wifi_logger.py`, which names files `rot_<angle>deg_t<trial>_*.csv`. |
-| `ex3_rotation/data/*.csv` | Raw turn logs (same columns as above). |
+| `ex3_rotation/data/*.csv` | Raw turn logs (same columns as above), named by commanded angle, e.g. `90deg.csv`, `-270deg.csv`. |
 | `ex3_rotation/measurements.csv` | Measured turn per log, role (calibration / held-back / not measured), notes. |
 | `ex3_rotation/analysis/odometry_exercise03_wheel_separation_CSY.ipynb` | Exercise 3 analysis with outputs: odometry replay in the course column format, per-trial B, least-squares fit, held-back test, sensitivity. Runs locally or in Colab (clones this repo). |
 

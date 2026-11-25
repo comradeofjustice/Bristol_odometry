@@ -1,10 +1,10 @@
 file,commanded_deg,trial,boot_id,measured_deg,role,used_in_fit,note
-rot_+90deg_t9_20261125_215116.csv,90,9,8f3abb91,100,calibration,yes,
-rot_+180deg_t2_20261125_215933.csv,180,2,4e05a985,195,calibration,yes,handwritten value overwritten - read as 195
-rot_+270deg_t2_20261125_215739.csv,270,2,84f85982,285,held-back,no,evaluation only
-rot_-90deg_t2_20261125_220106.csv,-90,2,ad20d17f,-98,calibration,yes,
-rot_-180deg_t3_20261125_220307.csv,-180,3,67e1806e,-193,calibration,yes,
-rot_-270deg_t1_20261125_220534.csv,-270,1,6dcf2995,-290,held-back,no,evaluation only; handwritten value read as -290
-rot_+180deg_t2_20261125_215348.csv,180,2,aa040496,,not measured,no,earlier +180 run; no physical reading; replay lost 509 ms of rows mid-turn
-rot_-90deg_t1_20261125_220025.csv,-90,1,e340243a,,not measured,no,earlier -90 run; no physical reading
-rot_-180deg_t2_20261125_220212.csv,-180,2,85fa6572,,not measured,no,earlier -180 run; no physical reading
+90deg.csv,90,9,8f3abb91,100,calibration,yes,
+180deg.csv,180,2,4e05a985,195,calibration,yes,
+-90deg.csv,-90,2,ad20d17f,-98,calibration,yes,
+-180deg.csv,-180,3,67e1806e,-193,calibration,yes,
+270deg.csv,270,2,84f85982,285,held-back,no,evaluation only
+-270deg.csv,-270,1,6dcf2995,-290,held-back,no,evaluation only
+180deg_extra.csv,180,2,aa040496,,not measured,no,earlier +180 run; no physical reading; replay lost 509 ms of rows mid-turn
+-90deg_extra.csv,-90,1,e340243a,,not measured,no,earlier -90 run; no physical reading
+-180deg_extra.csv,-180,2,85fa6572,,not measured,no,earlier -180 run; no physical reading
