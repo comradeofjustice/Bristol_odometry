@@ -38,6 +38,10 @@ B = B_old · k); ±270° is held back for evaluation.
 
 ![Rotation fit](ex3_rotation/analysis/rotation_fit.png)
 
+The notebook `ex3_rotation/analysis/odometry_exercise03_wheel_separation_CSY.ipynb` was run end to end in
+Google Colab (it clones this repository for its data):
+[open in Colab](https://colab.research.google.com/github/comradeofjustice/Bristol_odometry/blob/main/ex3_rotation/analysis/odometry_exercise03_wheel_separation_CSY.ipynb).
+
 Notes for discussion:
 
 - The robot always turned further than odometry reported, so the 90 mm in the model was too large.
