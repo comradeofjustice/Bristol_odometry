@@ -1,0 +1,3 @@
+direction,trial_num,csv,sheet_dx_mm,sheet_dy_mm,final_heading_deg,surface,square_length_mm,square_width_mm,model_wheel_radius_mm,model_wheel_separation_mm,note
+anticlockwise,1,ccw_trial1.csv,-26,-11,,printed test sheet on desk,321,217,16.36,83.48,robot trial counter t4; wheels nearly stalled ~1.1 s on side 3 (top edge about 75 mm from the left corner)
+clockwise,1,cw_trial1.csv,26,-6,,printed test sheet on desk,321,217,16.36,83.48,robot trial counter t4; short stall on side 2 (top edge about 34 mm from the left) and ~2 s crawling at minimum PWM near its end

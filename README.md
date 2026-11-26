@@ -7,6 +7,31 @@ All lengths are in millimetres.
 |---|---|---|
 | 2 — straight-line trials | effective wheel radius r | **16.36 mm** (± 0.13) |
 | 3 — on-the-spot turns | effective wheel separation B | **83.48 mm** (± 0.46), given r = 16.36 mm |
+| 4 — closed rectangle, CW and CCW | odometry end-point residual (frozen r, B) | 31 mm (CCW), 41 mm (CW) — first trial each |
+
+# Exercise 4 — Bidirectional rectangle benchmark (in progress)
+
+Firmware `ex4_square/System_error/` drives a closed 321 × 217 mm rectangle from the bottom-left corner
+(`LOOP_DIRECTION` = +1 anticlockwise, −1 clockwise) with encoder closed-loop sides and on-the-spot turns,
+using the frozen calibrated geometry r = 16.36 mm and B = 83.48 mm. No line following. The robot logs odometry
+every 20 ms in RAM and sends the record over Wi-Fi only after it has stopped, so Wi-Fi cannot stall the control loop.
+
+The robot centre's end position was measured on the sheet (right = +, up = +) and converted to the start frame
+(x = initial heading, y = robot's left). Residual e = physical closure − odometry closure.
+
+| Direction | Physical closure (x, y) mm | Odometry closure (x, y) mm, heading | Residual (x, y) mm | \|e\| |
+|---|---|---|---|---|
+| anticlockwise | (−26, −11) | (4.5, −4.7), +1.9° | (−30.4, −6.3) | 31.1 mm |
+| clockwise | (−6, −26) | (18.0, 7.1), −6.8° | (−24.0, −33.1) | 40.9 mm |
+
+![Odometry paths](ex4_square/analysis/odometry_paths.png)
+
+Notes: one trial per direction so far (the brief asks for ≥ 5 each) and no final heading measured yet, so
+systematic and random errors cannot be separated yet. In both trials the wheels nearly stalled for a while on
+the top edge of the rectangle (see `ex4_square/measurements_sheet_frame.csv`). The analysis notebook
+`ex4_square/analysis/odometry_exercise04_square_benchmark_CSY.ipynb` is the course notebook with only the data
+cells changed (plus `sort=False` so the paths plot in time order):
+[open in Colab](https://colab.research.google.com/github/comradeofjustice/Bristol_odometry/blob/main/ex4_square/analysis/odometry_exercise04_square_benchmark_CSY.ipynb).
 
 # Exercise 3 — Effective wheel separation
 
@@ -109,6 +134,9 @@ Notes for discussion:
 | `analysis/least_squares_fit.png` | The final least-squares plot. |
 | `ex3_rotation/Rotate/` | Exercise 3 sketch (on-the-spot turn, persistent trial counter) and its `wifi_logger.py`, which names files `rot_<angle>deg_t<trial>_*.csv`. |
 | `ex3_rotation/data/*.csv` | Raw turn logs (same columns as above), named by commanded angle, e.g. `90deg.csv`, `-270deg.csv`. |
+| `ex4_square/System_error/` | Exercise 4 sketch (rectangle, CW/CCW) and its logger (`sq_<dir>_t<trial>_*.csv`, record sent after the run). |
+| `ex4_square/data/` | `ccw_trial1.csv`, `cw_trial1.csv` raw logs (`run,time_ms,segment,left_pwm,right_pwm,left_counts,right_counts,x_mm,y_mm,theta_rad`) and `odometry_exercise04_square_trials.csv` in the course notebook's format. |
+| `ex4_square/measurements_sheet_frame.csv` | Measured end displacement on the sheet, geometry, notes per trial. |
 | `ex3_rotation/measurements.csv` | Measured turn per log, role (calibration / held-back / not measured), notes. |
 | `ex3_rotation/analysis/odometry_exercise03_wheel_separation_CSY.ipynb` | Exercise 3 analysis with outputs: odometry replay in the course column format, per-trial B, least-squares fit, held-back test, sensitivity. Runs locally or in Colab (clones this repo). |
 
