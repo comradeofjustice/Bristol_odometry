@@ -1,28 +1,31 @@
 # 02 — Effective wheel radius (Odometry Exercise 2)
 
-## Result
+[← back to the overview](../README.md)
 
-Least-squares fit through the origin of **reported odometry displacement** against
-**measured (real) displacement** over five trials:
+## Goal
 
-| | Value |
-|---|---|
-| Slope k = reported / real | **0.9780** (± 0.0079), R² = 0.9997 |
-| Effective wheel radius r = 16.0 / k | **16.36 mm** (± 0.13 mm) |
-| Fit with intercept, y = a·x + b | a = 0.9772, b = 1.67 mm → r = 16.37 mm |
-| Forward trials only | r = 16.12 mm |
-| Reverse trials only | r = 16.60 mm |
+Find the effective wheel radius r that makes the distance reported by the robot's encoder odometry match the
+distance measured with a ruler. The supplied model assumes r = 16.0 mm for both wheels.
 
-![Least-squares fit](analysis/least_squares_fit.png)
+## Method
 
-Why the slope gives the radius: for the same encoder count n,
-reported = (2π · r_standard / N) · n and real = (2π · r_true / N) · n, so
-reported = (r_standard / r_true) · real. The slope is k = r_standard / r_true, hence
-r_true = r_standard / k, with r_standard = 16.0 mm and N = 358.3 counts per revolution.
+For the same encoder count n, odometry reports `(2π · r_model / 358.3) · n` while the robot really moves
+`(2π · r_true / 358.3) · n`. So `reported = k · real` with `k = r_model / r_true`, and
 
-## Trials
+**r_true = r_model / k**, with k fitted by least squares through the origin over all trials.
 
-| Trial | CSV | Command (mm) | Measured (mm) | Reported (mm) | Single-trial r (mm) |
+## Experimental process
+
+1. Five straight runs with [01 — Go Straight](../01_go_straight/): +5, +10, +18 cm forward and −10, −18 cm reverse.
+2. Each run logged over Wi-Fi (`data/*.csv`); the chassis reference point measured on the printed sheet before and
+   after the run (`data/measurements.csv`).
+3. "Reported" displacement: the logged counts replayed through the same Euler model as `OdometryModel.cpp`
+   (r = 16.0, B = 90.0).
+4. Least-squares slope, single-trial radii, forward/reverse split in the notebook (run in Google Colab).
+
+## Results
+
+| Trial | CSV | Command | Measured | Reported (r = 16.0) | Single-trial r |
 |---|---|---|---|---|---|
 | 1 | `data/5cm.csv` | +50 | +52 | +50.78 | 16.39 |
 | 2 | `data/10cm.csv` | +100 | +103 | +101.00 | 16.32 |
@@ -30,23 +33,28 @@ r_true = r_standard / k, with r_standard = 16.0 mm and N = 358.3 counts per revo
 | 4 | `data/-10cm.csv` | −100 | −106 | −101.13 | 16.77 |
 | 5 | `data/-18cm.csv` | −180 | −187 | −180.81 | 16.55 |
 
-"Reported" is the local odometry displacement: the logged encoder counts replayed through
-the same first-order Euler model as `OdometryModel.cpp` (r = 16.0 mm, B = 90.0 mm).
-"Measured" is the ruler measurement of the same chassis reference point along the printed x axis.
+| Quantity | Value |
+|---|---|
+| Slope k = reported / real | **0.9780 ± 0.0079**, R² = 0.9997 |
+| Effective radius r = 16.0 / k | **16.36 ± 0.13 mm** |
+| Fit with intercept y = a·x + b | a = 0.9772, b = 1.67 mm → r = 16.37 mm |
+| Forward trials only / reverse only | r = 16.12 mm / 16.60 mm |
 
-Notes for discussion:
+![Least-squares fit](analysis/least_squares_fit.png)
 
-- Only one trial per condition, so the ± values describe the scatter of these five points only.
-- Reverse trials travelled 5–6 mm further than reported, forward trials 0.5–2 mm. This suggests
-  a direction-dependent effect (slip, start/stop behaviour or measurement), worth more repeats.
-- The result is an effective radius for this surface and load, not necessarily the geometric
-  wheel radius.
+## Discussion
+
+* The robot travels about 2 % further than the default model says, so r = 16.36 mm is used from here on.
+* Reverse runs travelled 5–6 mm further than reported, forward runs 0.5–2 mm: a direction-dependent effect (slip,
+  start/stop behaviour or measurement) that one trial per condition cannot resolve.
+* The ± values describe the scatter of five points only; the result is an *effective* radius for this surface and
+  load, not the geometric wheel radius.
 
 ## Files
 
 | Path | What it is |
 |---|---|
-| `data/*.csv` | Raw logs from [01 — Go Straight](../01_go_straight/) (`run,time_ms,left_pwm,right_pwm,left_counts,right_counts,diff`). |
-| `data/measurements.csv` | Ruler measurements (编号, CSV, 方向, 实际距离 mm). |
-| `analysis/odometry_exercise02_wheel_radius_CSY.ipynb` | Colab notebook (based on the course notebook) with outputs. Reads the Google Sheet and the CSVs from Google Drive. |
-| `analysis/least_squares_fit.png` | The least-squares plot. |
+| `data/*.csv` | Raw logs (`run,time_ms,left_pwm,right_pwm,left_counts,right_counts,diff`) |
+| `data/measurements.csv` | Ruler measurements (编号 / trial, CSV, 方向 / direction, 实际距离 / measured mm) |
+| `analysis/odometry_exercise02_wheel_radius_CSY.ipynb` | Course notebook adapted to this data, with outputs (reads the Google Sheet and CSVs from Google Drive) |
+| `analysis/least_squares_fit.png` | Figure above |

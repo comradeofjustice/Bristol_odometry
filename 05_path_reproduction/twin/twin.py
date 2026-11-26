@@ -10,7 +10,9 @@ counts) on a simulated robot whose motor and geometry model can be chosen:
   MODELS["calibrated"]  fitted to this robot's logs (Ex2-Ex4): per-wheel gain
                         above a deadband, first-order lag, right-wheel command
                         delay, B = 83.48 mm, r = 16.36 mm.
-Both models truncate PWM to an integer, as the robot's Robot.cpp does.
+  MODELS["refit_t6"]    the calibrated model with motor gains re-fitted on the real
+                        path run path_t6 (wooden floor, new batteries).
+All models truncate PWM to an integer, as the robot's Robot.cpp does.
 
 run(model) returns one row per 20 ms log period with the same columns as the
 robot's CSV (time_ms, segment, left_pwm, right_pwm, left_counts, right_counts,
@@ -69,6 +71,9 @@ MODELS = {
                     "supplied Processing twin: linear, ideal, B=90, r=16"),
     "calibrated": Model("calibrated", 3.992, 3.117, 14.9, 5.0, 20, 83.48, 16.36,
                         "fitted to Ex2-Ex4 logs (open-loop PWM replay)"),
+    "refit_t6": Model("refit_t6", 4.567, 3.370, 14.1, 5.0, 20, 83.48, 16.36,
+                      "motor gains re-fitted on real run path_t6 (wooden floor, new batteries);"
+                      " fitted and judged on the same run - validate on another run"),
 }
 
 
